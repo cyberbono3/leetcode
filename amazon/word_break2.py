@@ -3,9 +3,9 @@
 140. Word Break II
 Hard
 
-2558
+2560
 
-419
+420
 
 Add to List
 
@@ -47,41 +47,78 @@ Output:
 []
 
 
-s = "catsanddog"
-wordDict = ["cat", "cats", "and", "sand", "dog"]
-Output:
-[
-  "cats and dog",
-  "cat sand dog"
-]
 
-
-cat
 
 
 """
 
 
-class Solution:
-    def word_break2(self, s, words_dict):
+class TrieNode:
+    def __init__(self):
+        self.leaves = {}
+        self.end_word = False
+        self.word = None
         
-        def backtrack(index, curr):
-            if index == len(s):
-                res.append(" ".join(curr))
-                return 
+class Trie:
+    def __init__(self):
+        self.trie  = TrieNode()
+        self.cache = {}
+        
+    def insert(self, word):
+        curr = self.trie
+        for ch in word:
+            if ch not in curr.leaves:
+                curr.leaves[ch] = TrieNode()
+            curr = curr.leaves[ch]
+        curr.end_word = True
+        curr.word = word
+        
+    def cache(func):
+        def inner(obj, s):
+            if s not in obj.cache:
+                obj.cache[s] = func(obj,s)
+            return obj.cache[s]
+        return inner
+    
+    
+    @cache
+    def search(self, word, current, res):
+        if not word:
+            res.append(" ".join(current))
+            return
+        
+        curr = self.trie
+        
+        for i,ch in enumerate(word):
+            if ch not in curr.leaves:
+                break
+            if curr.end_word:
+                self.search(word[i+1:], current + [curr.word], res)      
+            curr = curr.leaves[ch]
+        
             
-            for i in range(index, len(s)):
-                word = "".join(s[index:i+1])
-                if word not in words_set:
-                    continue
-                backtrack(i+1, curr + [word])
-                    
+        
+
+
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: List[str]
+        
+        s = "catsanddog"
         
         
+        wordDict = ["cat", "cats", "and", "sand", "dog"]
+        
+        
+        
+        """
+        trie = Trie()
+        for w in wordDict:
+            trie.insert(w)
         res = []
-        words_set = set(words_dict)
-        backtrack(0, [])
+        trie.search(s, [], res)
         return res
-sol = Solution()
-print(sol.word_break2("catsanddog", ["cat", "cats", "and", "sand", "dog"]))
         
