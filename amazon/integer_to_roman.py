@@ -25,6 +25,6 @@ class Solution(object):
             k = num // values[i]
             for _ in range(k):
                 roman += symbols[i]
-                num %= values[i]
+                num -= values[i]
             i += 1
         return roman
