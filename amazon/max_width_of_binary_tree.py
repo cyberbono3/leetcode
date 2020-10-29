@@ -28,10 +28,9 @@ class Solution(object):
         
         """
      
-        
     
         q = deque()
-        curr_depth = 0
+        start = curr_depth = 0
         max_width = 0
         q.append((root, 0, 0 ))
         while q:
