@@ -8,19 +8,28 @@ class Solution(object):
         :type board: List[List[int]]
         :rtype: int
         """
+        #translat label to coodordinates x,y
+        def translate(label):
+            pass
         
         n = len(board)
         q = collections.deque([(1, 0)])
-        visited = set([1])
+        seen = set()
         while q: 
-            for i in range(len(q)):
-                square, turn = q.popleft()
-                for i in range(square + 1, square + 7):
-                    row, col = (i - 1)/n, (i - 1) % n 
-                    chute = board[n - row - 1][col if row % 2 == 0 else n - col - 1]
-                    if chute > 0: i = chute 
-                    if i == n*n: return turn + 1
-                    if i not in visited:
-                        visited.add(i)
-                        q.append((i, turn + 1))
-        return -1 
+            size = len(q)
+            for _  in range(size):
+                label, moves = q.popleft()
+                seen.add(label)
+                if label == n*n:
+                    return moves 
+                r,c = translate(label)
+                if board[r][c] != -1:
+                    label = board[r][c]
+                for x in range(1,7):
+                    new_label = label + x
+                    if new_label <= n*n and new_label not in seen:
+                        q.append(new_label, moves+1)
+        return -1
+                        
+                
+         
