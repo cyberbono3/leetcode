@@ -9,15 +9,16 @@ class Solution(object):
         :rtype: int
         """
         #translat label to coodordinates x,y
-        def translate(label):
-            pass
+        def translate(i):
+            return (i-1)/n , (i-1)%n
+            
         
         n = len(board)
         q = collections.deque([(1, 0)])
         seen = set()
         while q: 
             size = len(q)
-            for _  in range(size):
+            for i in range(size):
                 label, moves = q.popleft()
                 seen.add(label)
                 if label == n*n:
