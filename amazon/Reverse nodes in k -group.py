@@ -18,9 +18,11 @@ def reverseKGroup(self, head, k):
             r = r.next
             count += 1
         if count == k:  # if size k satisfied, reverse the inner linked list
-            pre, cur = r, l
-            for _ in range(k):
-                cur.next, cur, pre = pre, cur.next, cur  # standard reversing
-            jump.next, jump, l = pre, l, r  # connect two k-groups
+            prev, curr = r, l
+            for _ in range(k):   # reverse ndoes
+                curr.next = prev
+                curr = curr.next
+                prev = curr
+            jump.next, jump, l = prev, l, r  # connect two k-groups
         else:
             return dummy.next

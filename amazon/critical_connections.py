@@ -19,12 +19,7 @@ Output: [[1,3]]
 Explanation: [[3,1]] is also accepted.
 
 
-
-
-
-
-"""
-
+Bruteforce
 class Solution:
     def criticalConnections(self, n, connections):
         if not n or not connections : return []
@@ -47,5 +42,32 @@ class Solution:
     
 sol = Solution()
 print(sol.criticalConnections(4, [[0,1],[1,2],[2,0],[1,3]]) == [[1,3]])
+
+
+
+"""
+
+
         
-        
+import collections
+
+class Solution:
+    def criticalConnections(self, n, connections) :
+        def dfs(rank, curr, prev):
+            low[curr], result = rank, []
+            for neighbor in graph[curr]:
+                if neighbor == prev: continue
+                if not low[neighbor]:
+                    result += dfs(rank + 1, neighbor, curr)
+                low[curr] = min(low[curr], low[neighbor])
+                if low[neighbor] >= rank + 1:
+                    result.append([curr, neighbor])
+            print(low)
+            return result
+
+        low, graph = [0] * (n+1), collections.defaultdict(list)
+        for u, v in connections:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        return dfs(1, 1, 1)
