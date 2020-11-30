@@ -1,5 +1,5 @@
 
-# Solutions to most frequent amazon and facebook leetcode questions
+# Leetcode practice 
 
 - [Amazon questions](amazon/)
 - [Facebook questions](facebook/)
